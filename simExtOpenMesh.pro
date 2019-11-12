@@ -3,7 +3,7 @@ include(config.pri)
 QT -= core
 QT -= gui
 
-TARGET = v_repExtOpenMesh
+TARGET = simExtOpenMesh
 TEMPLATE = lib
 
 DEFINES -= UNICODE
@@ -36,30 +36,30 @@ INCLUDEPATH += "../include"
 }
 
 SOURCES += \
-    v_repExtOpenMesh.cpp \
+    simExtOpenMesh.cpp \
     ../common/scriptFunctionData.cpp \
     ../common/scriptFunctionDataItem.cpp \
-    ../common/v_repLib.cpp \
+    ../common/simLib.cpp \
 
 HEADERS +=\
-    v_repExtOpenMesh.h \
+    simExtOpenMesh.h \
     ../include/scriptFunctionData.h \
     ../include/scriptFunctionDataItem.h \
-    ../include/v_repLib.h \
+    ../include/simLib.h \
 
 INCLUDEPATH += $$OPENMESH_INCLUDEPATH
 LIBS += $$OPENMESH_LIBS
 
 win32 {
-    DEFINES += WIN_VREP
+    DEFINES += WIN_SIM
 }
 
 macx {
-    DEFINES += MAC_VREP
+    DEFINES += MAC_SIM
 }
 
 unix:!macx {
-    DEFINES += LIN_VREP
+    DEFINES += LIN_SIM
 }
 
 unix:!symbian {
