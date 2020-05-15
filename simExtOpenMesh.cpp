@@ -40,19 +40,6 @@ typedef OpenMesh::Decimater::ModQuadricT< Mesh >::Handle HModQuadric;
 #define strConCat(x,y,z)    CONCAT(x,y,z)
 static LIBRARY simLib;
 
-bool canOutputMsg(int msgType)
-{
-    int plugin_verbosity = sim_verbosity_default;
-    simGetModuleInfo("OpenMesh",sim_moduleinfo_verbosity,nullptr,&plugin_verbosity);
-    return(plugin_verbosity>=msgType);
-}
-
-void outputMsg(int msgType,const char* msg)
-{
-    if (canOutputMsg(msgType))
-        printf("%s\n",msg);
-}
-
 bool compute(const float* verticesIn,int verticesInLength,const int* indicesIn,int indicesInLength,float decimationPercentage,std::vector<float>& verticesOut,std::vector<int>& indicesOut)
 {
         Mesh mesh;
@@ -275,12 +262,12 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     simLib=loadSimLibrary(temp.c_str());
     if (simLib==NULL)
     {
-        outputMsg(sim_verbosity_errors,"simExtOpenMesh: error: could not find or correctly load the CoppeliaSim library. Cannot start 'OpenMesh' plugin.");
+        simAddLog("OpenMesh",sim_verbosity_errors,"could not find or correctly load the CoppeliaSim library. Cannot start the plugin.");
         return(0); // Means error, CoppeliaSim will unload this plugin
     }
     if (getSimProcAddresses(simLib)==0)
     {
-        outputMsg(sim_verbosity_errors,"simExtOpenMesh: error: could not find all required functions in the CoppeliaSim library. Cannot start 'OpenMesh' plugin.");
+        simAddLog("OpenMesh",sim_verbosity_errors,"could not find all required functions in the CoppeliaSim library. Cannot start the plugin.");
         unloadSimLibrary(simLib);
         return(0); // Means error, CoppeliaSim will unload this plugin
     }
