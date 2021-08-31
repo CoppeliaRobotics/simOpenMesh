@@ -272,8 +272,6 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
         return(0); // Means error, CoppeliaSim will unload this plugin
     }
 
-    simRegisterScriptVariable("simOpenMesh","require('simExtOpenMesh')",0);
-
     // Register the new functions:
     simRegisterScriptCallbackFunction(strConCat(LUA_DECIMATE_COMMAND,"@","OpenMesh"),strConCat("table newVertices,table newIndices=",LUA_DECIMATE_COMMAND,"(table vertices,table indices,number maxVertices,number maxTriangles)"),LUA_DECIMATE_CALLBACK);
 
