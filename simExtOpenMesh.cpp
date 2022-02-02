@@ -273,7 +273,7 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     }
 
     // Register the new functions:
-    simRegisterScriptCallbackFunction(strConCat(LUA_DECIMATE_COMMAND,"@","OpenMesh"),strConCat("table newVertices,table newIndices=",LUA_DECIMATE_COMMAND,"(table vertices,table indices,number maxVertices,number maxTriangles)"),LUA_DECIMATE_CALLBACK);
+    simRegisterScriptCallbackFunction(strConCat(LUA_DECIMATE_COMMAND,"@","OpenMesh"),strConCat("float[] newVertices,int[] newIndices=",LUA_DECIMATE_COMMAND,"(float[] vertices,int[] indices,int maxVertices,int maxTriangles)"),LUA_DECIMATE_CALLBACK);
 
     // Following for backward compatibility:
     simRegisterScriptVariable(LUA_DECIMATE_COMMANDOLD,LUA_DECIMATE_COMMAND,-1);
