@@ -146,8 +146,8 @@ void LUA_DECIMATE_CALLBACK(SScriptCallBack* p)
         {
             std::vector<float> v2(outV,outV+outVL);
             std::vector<int> i2(outI,outI+outIL);
-            simReleaseBuffer((simChar*)outV);
-            simReleaseBuffer((simChar*)outI);
+            simReleaseBuffer((char*)outV);
+            simReleaseBuffer((char*)outI);
             D.pushOutData(CScriptFunctionDataItem(v2));
             D.pushOutData(CScriptFunctionDataItem(i2));
         }
