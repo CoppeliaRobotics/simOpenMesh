@@ -52,5 +52,6 @@ coppeliasim_add_plugin(
     ${COPPELIASIM_COMMON_DIR}/scriptFunctionData.cpp
     ${COPPELIASIM_COMMON_DIR}/scriptFunctionDataItem.cpp
 )
+target_compile_definitions(simExtOpenMesh PRIVATE SIM_MATH_DOUBLE)
 add_dependencies(simExtOpenMesh OpenMesh-${OPENMESH_VERSION})
 target_link_libraries(simExtOpenMesh ${OPENMESH_LINK_LIBRARY})

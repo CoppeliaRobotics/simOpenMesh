@@ -40,7 +40,7 @@ typedef OpenMesh::Decimater::ModQuadricT< Mesh >::Handle HModQuadric;
 #define strConCat(x,y,z)    CONCAT(x,y,z)
 static LIBRARY simLib;
 
-bool compute(const float* verticesIn,int verticesInLength,const int* indicesIn,int indicesInLength,float decimationPercentage,std::vector<float>& verticesOut,std::vector<int>& indicesOut)
+bool compute(const double* verticesIn,int verticesInLength,const int* indicesIn,int indicesInLength,double decimationPercentage,std::vector<double>& verticesOut,std::vector<int>& indicesOut)
 {
         Mesh mesh;
         Decimater   decimater(mesh);
@@ -82,7 +82,7 @@ bool compute(const float* verticesIn,int verticesInLength,const int* indicesIn,i
         }
 
         decimater.initialize();
-        decimater.decimate_to_faces(0,int(decimationPercentage*float(indicesInLength/3)));
+        decimater.decimate_to_faces(0,int(decimationPercentage*double(indicesInLength/3)));
         mesh.garbage_collection();
 
         verticesOut.clear();
@@ -123,7 +123,7 @@ bool compute(const float* verticesIn,int verticesInLength,const int* indicesIn,i
 
 const int inArgs_DECIMATE[]={
     4,
-    sim_script_arg_float|sim_script_arg_table,9,
+    sim_script_arg_double|sim_script_arg_table,9,
     sim_script_arg_int32|sim_script_arg_table,6,
     sim_script_arg_int32,0,
     sim_script_arg_int32,0,
@@ -136,15 +136,15 @@ void LUA_DECIMATE_CALLBACK(SScriptCallBack* p)
     if (D.readDataFromStack(p->stackID,inArgs_DECIMATE,inArgs_DECIMATE[0],LUA_DECIMATE_COMMAND))
     {
         std::vector<CScriptFunctionDataItem>* inData=D.getInDataPtr();
-        float* outV;
+        double* outV;
         int outVL;
         int* outI;
         int outIL;
-        float percent=float(inData->at(3).int32Data[0])/float(inData->at(1).int32Data.size()/3);
-        int res=simGetDecimatedMesh(&inData->at(0).floatData[0],inData->at(0).floatData.size(),&inData->at(1).int32Data[0],inData->at(1).int32Data.size(),&outV,&outVL,&outI,&outIL,percent,0,NULL);
+        double percent=double(inData->at(3).int32Data[0])/double(inData->at(1).int32Data.size()/3);
+        int res=simGetDecimatedMesh(&inData->at(0).doubleData[0],inData->at(0).doubleData.size(),&inData->at(1).int32Data[0],inData->at(1).int32Data.size(),&outV,&outVL,&outI,&outIL,percent,0,NULL);
         if (res>0)
         {
-            std::vector<float> v2(outV,outV+outVL);
+            std::vector<double> v2(outV,outV+outVL);
             std::vector<int> i2(outI,outI+outIL);
             simReleaseBuffer((char*)outV);
             simReleaseBuffer((char*)outI);
@@ -178,8 +178,8 @@ void LUA_DECIMATE_CALLBACK(SScriptCallBack* p)
 
 
         std::vector<Mesh::VertexHandle> vhandles;
-        for (int i=0;i<int(inData->at(0).floatData.size()/3);i++)
-            vhandles.push_back(mesh.add_vertex(Mesh::Point(inData->at(0).floatData[3*i+0],inData->at(0).floatData[3*i+1],inData->at(0).floatData[3*i+2])));
+        for (int i=0;i<int(inData->at(0).doubleData.size()/3);i++)
+            vhandles.push_back(mesh.add_vertex(Mesh::Point(inData->at(0).doubleData[3*i+0],inData->at(0).doubleData[3*i+1],inData->at(0).doubleData[3*i+2])));
 
         std::vector<Mesh::VertexHandle> face_vhandles;
         for (int i=0;i<int(inData->at(1).intData.size()/3);i++)
@@ -196,7 +196,7 @@ void LUA_DECIMATE_CALLBACK(SScriptCallBack* p)
         mesh.garbage_collection();
 
 
-        std::vector<float> newVertices;
+        std::vector<double> newVertices;
         Mesh::VertexHandle vh;
         OpenMesh::Vec3f v;
         for (int i=0;i<int(mesh.n_vertices());i++)
@@ -273,7 +273,7 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     }
 
     // Register the new functions:
-    simRegisterScriptCallbackFunction(strConCat(LUA_DECIMATE_COMMAND,"@","OpenMesh"),strConCat("float[] newVertices,int[] newIndices=",LUA_DECIMATE_COMMAND,"(float[] vertices,int[] indices,int maxVertices,int maxTriangles)"),LUA_DECIMATE_CALLBACK);
+    simRegisterScriptCallbackFunction(strConCat(LUA_DECIMATE_COMMAND,"@","OpenMesh"),strConCat("double[] newVertices,int[] newIndices=",LUA_DECIMATE_COMMAND,"(double[] vertices,int[] indices,int maxVertices,int maxTriangles)"),LUA_DECIMATE_CALLBACK);
 
     // Following for backward compatibility:
     simRegisterScriptVariable(LUA_DECIMATE_COMMANDOLD,LUA_DECIMATE_COMMAND,-1);
@@ -316,23 +316,23 @@ SIM_DLLEXPORT void simDecimateMesh(void* data)
 {
     // Collect info from CoppeliaSim:
     void** valPtr=(void**)data;
-    float* verticesIn=((float*)valPtr[0]);
+    double* verticesIn=((double*)valPtr[0]);
     int verticesInLength=((int*)valPtr[1])[0];
     int* indicesIn=((int*)valPtr[2]);
     int indicesInLength=((int*)valPtr[3])[0];
-    float decimationPercentage=((float*)valPtr[4])[0];
+    double decimationPercentage=((double*)valPtr[4])[0];
     int interfaceVersion=((int*)valPtr[5])[0]; // should be zero for the current version
 
-    std::vector<float> verticesOut;
+    std::vector<double> verticesOut;
     std::vector<int> indicesOut;
     bool result=compute(verticesIn,verticesInLength,indicesIn,indicesInLength,decimationPercentage,verticesOut,indicesOut);
     ((bool*)valPtr[6])[0]=result;
     if (result)
     {
-        float* v=(float*)simCreateBuffer(verticesOut.size()*sizeof(float));
+        double* v=(double*)simCreateBuffer(verticesOut.size()*sizeof(double));
         for (size_t i=0;i<verticesOut.size();i++)
             v[i]=verticesOut[i];
-        ((float**)valPtr[7])[0]=v;
+        ((double**)valPtr[7])[0]=v;
         ((int*)valPtr[8])[0]=verticesOut.size();
         int* ind=(int*)simCreateBuffer(indicesOut.size()*sizeof(int));
         for (size_t i=0;i<indicesOut.size();i++)
