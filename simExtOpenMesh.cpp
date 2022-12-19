@@ -295,8 +295,8 @@ SIM_DLLEXPORT void* simMessage(int message,int* auxiliaryData,void* customData,i
 
     // This function should not generate any error messages:
     int errorModeSaved;
-    simGetIntegerParameter(sim_intparam_error_report_mode,&errorModeSaved);
-    simSetIntegerParameter(sim_intparam_error_report_mode,sim_api_errormessage_ignore);
+    simGetInt32Param(sim_intparam_error_report_mode,&errorModeSaved);
+    simSetInt32Param(sim_intparam_error_report_mode,sim_api_errormessage_ignore);
 
     void* retVal=NULL;
 
@@ -308,7 +308,7 @@ SIM_DLLEXPORT void* simMessage(int message,int* auxiliaryData,void* customData,i
     { // Simulation just ended
     }
 
-    simSetIntegerParameter(sim_intparam_error_report_mode,errorModeSaved); // restore previous settings
+    simSetInt32Param(sim_intparam_error_report_mode,errorModeSaved); // restore previous settings
     return(retVal);
 }
 
