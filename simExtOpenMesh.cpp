@@ -4,16 +4,11 @@
 #include <iostream>
 
 #include "simExtOpenMesh.h"
-#include "scriptFunctionData.h"
-#include "simLib.h"
-#include "OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh"
-#include "OpenMesh/Tools/Decimater/DecimaterT.hh"
-#include "OpenMesh/Tools/Decimater/ModQuadricT.hh"
-// #include "OpenMesh/Tools/Decimater/ModRoundnessT.hh"
-// #include "OpenMesh/Tools/Decimater/ModHausdorffT.hh"
-// #include "OpenMesh/Tools/Decimater/ModAspectRatioT.hh"
-// #include "OpenMesh/Tools/Decimater/ModNormalDeviationT.hh"
-// #include <OpenMesh/Core/Geometry/VectorT.hh>
+#include <scriptFunctionData.h>
+#include <simLib.h>
+#include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
+#include <OpenMesh/Tools/Decimater/DecimaterT.hh>
+#include <OpenMesh/Tools/Decimater/ModQuadricT.hh>
 
 typedef OpenMesh::TriMesh_ArrayKernelT<> Mesh;
 typedef OpenMesh::Decimater::DecimaterT< Mesh > Decimater;
