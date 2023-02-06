@@ -53,8 +53,8 @@ coppeliasim_add_plugin(
     LEGACY
     SOURCES
     simExtOpenMesh.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/scriptFunctionData.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/scriptFunctionDataItem.cpp
+    ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionData.cpp
+    ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionDataItem.cpp
 )
 target_compile_definitions(simExtOpenMesh PRIVATE SIM_MATH_DOUBLE)
 if(NOT WIN32)

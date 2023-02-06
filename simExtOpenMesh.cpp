@@ -4,8 +4,8 @@
 #include <iostream>
 
 #include "simExtOpenMesh.h"
-#include <scriptFunctionData.h>
-#include <simLib.h>
+#include <simLib/scriptFunctionData.h>
+#include <simLib/simLib.h>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
 #include <OpenMesh/Tools/Decimater/DecimaterT.hh>
 #include <OpenMesh/Tools/Decimater/ModQuadricT.hh>
