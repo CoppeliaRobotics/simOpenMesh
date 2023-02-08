@@ -62,22 +62,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\common\scriptFunctionData.cpp" />
-    <ClCompile Include="..\common\scriptFunctionDataItem.cpp" />
+    <ClCompile Include="..\include\simLib\scriptFunctionData.cpp" />
+    <ClCompile Include="..\include\simLib\scriptFunctionDataItem.cpp" />
     <ClCompile Include="simExtOpenMesh.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\common\simLib.cpp">
+    <ClCompile Include="..\include\simLib\simLib.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\scriptFunctionData.h" />
-    <ClInclude Include="..\include\scriptFunctionDataItem.h" />
+    <ClInclude Include="..\include\simLib\scriptFunctionData.h" />
+    <ClInclude Include="..\include\simLib\scriptFunctionDataItem.h" />
     <ClInclude Include="simExtOpenMesh.h" />
-    <ClInclude Include="..\include\simLib.h" />
+    <ClInclude Include="..\include\simLib\simLib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
