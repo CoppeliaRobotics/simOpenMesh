@@ -38,15 +38,15 @@ INCLUDEPATH += "../include"
 
 SOURCES += \
     simExtOpenMesh.cpp \
-    ../include/scriptFunctionData.cpp \
-    ../include/scriptFunctionDataItem.cpp \
-    ../include/simLib.cpp \
+    ../include/simLib/scriptFunctionData.cpp \
+    ../include/simLib/scriptFunctionDataItem.cpp \
+    ../include/simLib/simLib.cpp \
 
 HEADERS +=\
     simExtOpenMesh.h \
-    ../include/scriptFunctionData.h \
-    ../include/scriptFunctionDataItem.h \
-    ../include/simLib.h \
+    ../include/simLib/scriptFunctionData.h \
+    ../include/simLib/scriptFunctionDataItem.h \
+    ../include/simLib/simLib.h \
 
 INCLUDEPATH += $$OPENMESH_INCLUDEPATH
 LIBS += $$OPENMESH_LIBS
