@@ -268,6 +268,7 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     }
 
     simRegisterScriptVariable("simOpenMesh","require('simOpenMesh')",0);
+    simRegisterScriptCallbackFunction("simOpenMesh.decimateShape@OpenMesh","int newShapeHandle=simOpenMesh.decimateShape(int shapeHandle,double proportion)",0);
 
     // Register the new functions:
     simRegisterScriptCallbackFunction(strConCat(LUA_DECIMATE_COMMAND,"@","OpenMesh"),strConCat("double[] newVertices,int[] newIndices=",LUA_DECIMATE_COMMAND,"(double[] vertices,int[] indices,int maxVertices,int maxTriangles)"),LUA_DECIMATE_CALLBACK);
