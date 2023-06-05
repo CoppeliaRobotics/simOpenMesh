@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "simExtOpenMesh.h"
+#include "simOpenMesh.h"
 #include <simLib/scriptFunctionData.h>
 #include <simLib/simLib.h>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
@@ -111,11 +111,8 @@ bool compute(const double* verticesIn,int verticesInLength,const int* indicesIn,
 
 
 // --------------------------------------------------------------------------------------
-// simExtOpenMesh_getDecimated
+// simOpenMesh.getDecimated
 // --------------------------------------------------------------------------------------
-#define LUA_DECIMATE_COMMANDOLD "simExtOpenMesh_getDecimated"
-#define LUA_DECIMATE_COMMAND "simOpenMesh.getDecimated"
-
 const int inArgs_DECIMATE[]={
     4,
     sim_script_arg_double|sim_script_arg_table,9,
@@ -128,7 +125,7 @@ void LUA_DECIMATE_CALLBACK(SScriptCallBack* p)
 { // keep for backward compatibility
     CScriptFunctionData D;
     int result=-1;
-    if (D.readDataFromStack(p->stackID,inArgs_DECIMATE,inArgs_DECIMATE[0],LUA_DECIMATE_COMMAND))
+    if (D.readDataFromStack(p->stackID,inArgs_DECIMATE,inArgs_DECIMATE[0],nullptr))
     {
         std::vector<CScriptFunctionDataItem>* inData=D.getInDataPtr();
         double* outV;
@@ -228,7 +225,7 @@ void LUA_DECIMATE_CALLBACK(SScriptCallBack* p)
 
 
 // This is the plugin start routine:
-SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
+SIM_DLLEXPORT int simInit(const char* pluginName)
 { // This is called just once, at the start of CoppeliaSim
     // Dynamically load and bind CoppeliaSim functions:
     char curDirAndFile[1024];
@@ -257,57 +254,31 @@ SIM_DLLEXPORT unsigned char simStart(void* reservedPointer,int reservedInt)
     simLib=loadSimLibrary(temp.c_str());
     if (simLib==NULL)
     {
-        printf("simExtOpenMesh: error: could not find or correctly load the CoppeliaSim library. Cannot start the plugin.\n"); // cannot use simAddLog here.
+        simAddLog(pluginName,sim_verbosity_errors,"could not find or correctly load the CoppeliaSim library. Cannot start the plugin.");
         return(0); // Means error, CoppeliaSim will unload this plugin
     }
     if (getSimProcAddresses(simLib)==0)
     {
-        printf("simExtOpenMesh: error: could not find all required functions in the CoppeliaSim library. Cannot start the plugin.\n"); // cannot use simAddLog here.
+        simAddLog(pluginName,sim_verbosity_errors,"could not find all required functions in the CoppeliaSim library. Cannot start the plugin.");
         unloadSimLibrary(simLib);
         return(0); // Means error, CoppeliaSim will unload this plugin
     }
 
-    simRegisterScriptVariable("simOpenMesh","require('simOpenMesh')",0);
-    simRegisterScriptCallbackFunction("simOpenMesh.decimateShape@OpenMesh","int newShapeHandle=simOpenMesh.decimateShape(int shapeHandle,double proportion)",0);
+    // Register the new function:
+    simRegisterScriptCallbackFunction("getDecimated",nullptr,LUA_DECIMATE_CALLBACK);
 
-    // Register the new functions:
-    simRegisterScriptCallbackFunction(strConCat(LUA_DECIMATE_COMMAND,"@","OpenMesh"),strConCat("double[] newVertices,int[] newIndices=",LUA_DECIMATE_COMMAND,"(double[] vertices,int[] indices,int maxVertices,int maxTriangles)"),LUA_DECIMATE_CALLBACK);
-
-    // Following for backward compatibility:
-    simRegisterScriptVariable(LUA_DECIMATE_COMMANDOLD,LUA_DECIMATE_COMMAND,-1);
-    simRegisterScriptCallbackFunction(strConCat(LUA_DECIMATE_COMMANDOLD,"@","OpenMesh"),strConCat("Please use the ",LUA_DECIMATE_COMMAND," notation instead"),0);
-
-
-    return(4);  // initialization went fine, we return the version number of this extension module (can be queried with simGetModuleName). 4 since V3.4.1
+    return(5);  // initialization went fine, we return the version number of this extension module (can be queried with simGetModuleName). 5 since V4.6
 }
 
 // This is the plugin end routine:
-SIM_DLLEXPORT void simEnd()
+SIM_DLLEXPORT void simCleanup()
 { // This is called just once, at the end of CoppeliaSim
     unloadSimLibrary(simLib); // release the library
 }
 
 // This is the plugin messaging routine (i.e. CoppeliaSim calls this function very often, with various messages):
-SIM_DLLEXPORT void* simMessage(int message,int* auxiliaryData,void* customData,int* replyData)
-{ // This is called quite often. Just watch out for messages/events you want to handle
-
-    // This function should not generate any error messages:
-    int errorModeSaved;
-    simGetInt32Param(sim_intparam_error_report_mode,&errorModeSaved);
-    simSetInt32Param(sim_intparam_error_report_mode,sim_api_errormessage_ignore);
-
-    void* retVal=NULL;
-
-    if (message==sim_message_eventcallback_instancepass)
-    {
-    }
-
-    if (message==sim_message_eventcallback_simulationended)
-    { // Simulation just ended
-    }
-
-    simSetInt32Param(sim_intparam_error_report_mode,errorModeSaved); // restore previous settings
-    return(retVal);
+SIM_DLLEXPORT void simMsg(int,int*,void*)
+{
 }
 
 SIM_DLLEXPORT void simDecimateMesh(void* data)

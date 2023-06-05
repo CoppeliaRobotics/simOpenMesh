@@ -3,7 +3,7 @@ include(config.pri)
 QT -= core
 QT -= gui
 
-TARGET = simExtOpenMesh
+TARGET = simOpenMesh
 TEMPLATE = lib
 
 DEFINES -= UNICODE
@@ -38,13 +38,13 @@ INCLUDEPATH += "../include"
 }
 
 SOURCES += \
-    simExtOpenMesh.cpp \
+    simOpenMesh.cpp \
     ../include/simLib/scriptFunctionData.cpp \
     ../include/simLib/scriptFunctionDataItem.cpp \
     ../include/simLib/simLib.cpp \
 
 HEADERS +=\
-    simExtOpenMesh.h \
+    simOpenMesh.h \
     ../include/simLib/scriptFunctionData.h \
     ../include/simLib/scriptFunctionDataItem.h \
     ../include/simLib/simLib.h \

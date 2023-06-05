@@ -1,4 +1,4 @@
-local simOpenMesh={}
+local simOpenMesh=loadPlugin('simOpenMesh')
 
 function simOpenMesh.getDecimatedShape(shapeHandle,prop)
     local vertices,indices=sim.getShapeMesh(shapeHandle)

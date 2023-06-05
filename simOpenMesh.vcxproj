@@ -8,7 +8,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7222A12C-EFFD-4B51-952B-F9E6A1159E23}</ProjectGuid>
-    <RootNamespace>simExtOpenMesh</RootNamespace>
+    <RootNamespace>simOpenMesh</RootNamespace>
     <Keyword>MFCDLLProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -64,7 +64,7 @@
   <ItemGroup>
     <ClCompile Include="..\include\simLib\scriptFunctionData.cpp" />
     <ClCompile Include="..\include\simLib\scriptFunctionDataItem.cpp" />
-    <ClCompile Include="simExtOpenMesh.cpp">
+    <ClCompile Include="simOpenMesh.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
@@ -76,7 +76,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\simLib\scriptFunctionData.h" />
     <ClInclude Include="..\include\simLib\scriptFunctionDataItem.h" />
-    <ClInclude Include="simExtOpenMesh.h" />
+    <ClInclude Include="simOpenMesh.h" />
     <ClInclude Include="..\include\simLib\simLib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

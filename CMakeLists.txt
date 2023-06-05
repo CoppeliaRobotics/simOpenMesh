@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(simExtOpenMesh)
+project(simOpenMesh)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_MACOSX_RPATH 1)
@@ -49,16 +49,17 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 include_directories(${OPENMESH_INCLUDE_DIRS})
 
 coppeliasim_add_plugin(
-    simExtOpenMesh
+    simOpenMesh
     LEGACY
     SOURCES
-    simExtOpenMesh.cpp
+    simOpenMesh.cpp
     ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionData.cpp
     ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionDataItem.cpp
 )
-target_compile_definitions(simExtOpenMesh PRIVATE SIM_MATH_DOUBLE)
+target_compile_definitions(simOpenMesh PRIVATE SIM_MATH_DOUBLE)
 if(NOT WIN32)
-    add_dependencies(simExtOpenMesh OpenMesh-${OPENMESH_VERSION})
+    add_dependencies(simOpenMesh OpenMesh-${OPENMESH_VERSION})
 endif()
-target_link_libraries(simExtOpenMesh ${OPENMESH_LIBRARIES})
+target_link_libraries(simOpenMesh ${OPENMESH_LIBRARIES})
 coppeliasim_add_lua(simOpenMesh.lua)
+coppeliasim_add_lua(simOpenMesh-ce.lua)
