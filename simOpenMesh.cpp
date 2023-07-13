@@ -18,21 +18,6 @@ typedef OpenMesh::Decimater::ModQuadricT< Mesh >::Handle HModQuadric;
 // typedef OpenMesh::Decimater::ModAspectRatioT< Mesh >::Handle HModAspectRatio;
 // typedef OpenMesh::Decimater::ModNormalDeviationT< Mesh >::Handle HModNormalDeviation;
 
-#ifdef _WIN32
-    #ifdef QT_COMPIL
-        #include <direct.h>
-        #include <iostream>
-    #else
-        #include <shlwapi.h>
-        #pragma comment(lib, "Shlwapi.lib")
-    #endif
-#endif /* _WIN32 */
-#if defined (__linux) || defined (__APPLE__)
-    #include <unistd.h>
-#endif /* __linux || __APPLE__ */
-
-#define CONCAT(x,y,z) x y z
-#define strConCat(x,y,z)    CONCAT(x,y,z)
 static LIBRARY simLib;
 
 bool compute(const double* verticesIn,int verticesInLength,const int* indicesIn,int indicesInLength,double decimationPercentage,std::vector<double>& verticesOut,std::vector<int>& indicesOut)
@@ -224,60 +209,32 @@ void LUA_DECIMATE_CALLBACK(SScriptCallBack* p)
 // --------------------------------------------------------------------------------------
 
 
-// This is the plugin start routine:
-SIM_DLLEXPORT int simInit(const char* pluginName)
-{ // This is called just once, at the start of CoppeliaSim
-    // Dynamically load and bind CoppeliaSim functions:
-    char curDirAndFile[1024];
-#ifdef _WIN32
-    #ifdef QT_COMPIL
-        _getcwd(curDirAndFile, sizeof(curDirAndFile));
-    #else
-        GetModuleFileName(NULL,curDirAndFile,1023);
-        PathRemoveFileSpec(curDirAndFile);
-    #endif
-#elif defined (__linux) || defined (__APPLE__)
-    getcwd(curDirAndFile, sizeof(curDirAndFile));
-#endif
-
-    std::string currentDirAndPath(curDirAndFile);
-    std::string temp(currentDirAndPath);
-
-#ifdef _WIN32
-    temp+="\\coppeliaSim.dll";
-#elif defined (__linux)
-    temp+="/libcoppeliaSim.so";
-#elif defined (__APPLE__)
-    temp+="/libcoppeliaSim.dylib";
-#endif /* __linux || __APPLE__ */
-
-    simLib=loadSimLibrary(temp.c_str());
+SIM_DLLEXPORT int simInit(SSimInit* info)
+{
+    simLib=loadSimLibrary(info->coppeliaSimLibPath);
     if (simLib==NULL)
     {
-        simAddLog(pluginName,sim_verbosity_errors,"could not find or correctly load the CoppeliaSim library. Cannot start the plugin.");
+        simAddLog(info->pluginName,sim_verbosity_errors,"could not find or correctly load the CoppeliaSim library. Cannot start the plugin.");
         return(0); // Means error, CoppeliaSim will unload this plugin
     }
     if (getSimProcAddresses(simLib)==0)
     {
-        simAddLog(pluginName,sim_verbosity_errors,"could not find all required functions in the CoppeliaSim library. Cannot start the plugin.");
+        simAddLog(info->pluginName,sim_verbosity_errors,"could not find all required functions in the CoppeliaSim library. Cannot start the plugin.");
         unloadSimLibrary(simLib);
         return(0); // Means error, CoppeliaSim will unload this plugin
     }
 
-    // Register the new function:
     simRegisterScriptCallbackFunction("getDecimated",nullptr,LUA_DECIMATE_CALLBACK);
 
     return(5);  // initialization went fine, we return the version number of this extension module (can be queried with simGetModuleName). 5 since V4.6
 }
 
-// This is the plugin end routine:
 SIM_DLLEXPORT void simCleanup()
-{ // This is called just once, at the end of CoppeliaSim
+{
     unloadSimLibrary(simLib); // release the library
 }
 
-// This is the plugin messaging routine (i.e. CoppeliaSim calls this function very often, with various messages):
-SIM_DLLEXPORT void simMsg(int,int*,void*)
+SIM_DLLEXPORT void simMsg(SSimMsg*)
 {
 }
 
