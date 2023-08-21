@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.16.3)
 project(simOpenMesh)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -60,6 +60,6 @@ target_compile_definitions(simOpenMesh PRIVATE SIM_MATH_DOUBLE)
 if(NOT WIN32)
     add_dependencies(simOpenMesh OpenMesh-${OPENMESH_VERSION})
 endif()
-target_link_libraries(simOpenMesh ${OPENMESH_LIBRARIES})
+target_link_libraries(simOpenMesh PRIVATE ${OPENMESH_LIBRARIES})
 coppeliasim_add_lua(simOpenMesh.lua)
 coppeliasim_add_lua(simOpenMesh-ce.lua)
