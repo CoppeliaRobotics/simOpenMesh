@@ -52,7 +52,7 @@ coppeliasim_add_plugin(
     simOpenMesh
     LEGACY
     SOURCES
-    simOpenMesh.cpp
+    sourceCode/simOpenMesh.cpp
     ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionData.cpp
     ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionDataItem.cpp
 )
@@ -61,5 +61,5 @@ if(NOT WIN32)
     add_dependencies(simOpenMesh OpenMesh-${OPENMESH_VERSION})
 endif()
 target_link_libraries(simOpenMesh PRIVATE ${OPENMESH_LIBRARIES})
-coppeliasim_add_lua(simOpenMesh.lua)
-coppeliasim_add_lua(simOpenMesh-ce.lua)
+coppeliasim_add_lua(lua/simOpenMesh.lua)
+coppeliasim_add_lua(lua/simOpenMesh-ce.lua)
