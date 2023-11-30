@@ -38,13 +38,13 @@ INCLUDEPATH += "../include"
 }
 
 SOURCES += \
-    simOpenMesh.cpp \
+    sourcCode/simOpenMesh.cpp \
     ../include/simLib/scriptFunctionData.cpp \
     ../include/simLib/scriptFunctionDataItem.cpp \
     ../include/simLib/simLib.cpp \
 
 HEADERS +=\
-    simOpenMesh.h \
+    sourcCode/simOpenMesh.h \
     ../include/simLib/scriptFunctionData.h \
     ../include/simLib/scriptFunctionDataItem.h \
     ../include/simLib/simLib.h \
