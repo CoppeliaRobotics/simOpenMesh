@@ -1,6 +1,7 @@
 local simOpenMesh = loadPlugin('simOpenMesh');
 
 function simOpenMesh.getDecimatedShape(shapeHandle, prop)
+    -- for backward compatibility
     local vertices, indices = sim.getShapeMesh(shapeHandle)
     local m = sim.getObjectMatrix(shapeHandle, -1)
     for i = 1, #vertices / 3, 1 do
