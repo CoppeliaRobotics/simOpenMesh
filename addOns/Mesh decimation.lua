@@ -1,7 +1,3 @@
-sim = require('sim')
-simUI = require('simUI')
-simOpenMesh = require('simOpenMesh')
-
 function sysCall_info()
     return {autoStart = false, menu = 'Geometry / Mesh\nMesh decimation...'}
 end
@@ -38,6 +34,10 @@ function sysCall_nonSimulation()
 end
     
 function sysCall_init()
+    sim = require('sim')
+    simUI = require('simUI')
+    simOpenMesh = require('simOpenMesh')
+
     local sel = sim.getObjectSel()
     if #sel == 0 or sim.getSimulationState() ~= sim.simulation_stopped then
         simUI.msgBox(simUI.msgbox_type.info, simUI.msgbox_buttons.ok, "Mesh Decimation", 'Make sure that at least one object is selected, and that simulation is not running.')
