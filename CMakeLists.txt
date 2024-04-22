@@ -55,6 +55,13 @@ coppeliasim_add_plugin(
     sourceCode/simOpenMesh.cpp
     ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionData.cpp
     ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionDataItem.cpp
+    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackBool.cpp
+    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackNull.cpp
+    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackNumber.cpp
+    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackString.cpp
+    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackArray.cpp
+    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackMap.cpp
+    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackObject.cpp
 )
 target_compile_definitions(simOpenMesh PRIVATE SIM_MATH_DOUBLE)
 if(NOT WIN32)
