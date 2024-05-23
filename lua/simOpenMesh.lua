@@ -14,7 +14,7 @@ function simOpenMesh.getDecimatedShape(shapeHandle, prop)
     local currentTriangleCount = #indices // 3
     local afterTriangleCount = math.max(1, currentTriangleCount * prop)
     local nvertices, nindices = simOpenMesh.getDecimated(vertices, indices, 0, afterTriangleCount)
-    local newShape = sim.createMeshShape(0, 0, nvertices, nindices)
+    local newShape = sim.createShape(0, 0, nvertices, nindices)
     local _, colad = sim.getShapeColor(shapeHandle, nil, sim.colorcomponent_ambient_diffuse)
     sim.setShapeColor(newShape, nil, sim.colorcomponent_ambient_diffuse, colad)
     local _, colsp = sim.getShapeColor(shapeHandle, nil, sim.colorcomponent_specular)
@@ -27,7 +27,7 @@ function simOpenMesh.getDecimatedShape(shapeHandle, prop)
     sim.setObjectParent(newShape, p, true)
     local children = sim.getObjectsInTree(shapeHandle, sim.handle_all, 1 + 2)
     for i = 1, #children, 1 do sim.setObjectParent(children[i], newShape, true) end
-    sim.removeObject(shapeHandle)
+    sim.removeObjects({shapeHandle})
     sim.setObjectAlias(newShape, nm)
     return newShape
 end
