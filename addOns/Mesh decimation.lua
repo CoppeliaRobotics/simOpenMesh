@@ -1,3 +1,5 @@
+local sim, simUI, simOpenMesh
+
 function sysCall_info()
     return {autoStart = false, menu = 'Geometry / Mesh\nMesh decimation...'}
 end
@@ -13,7 +15,7 @@ function sysCall_nonSimulation()
                 for i = 1, #params.sel do
                     local h = params.sel[i]
                     local vert, ind = sim.getShapeMesh(h)
-                    sim.addLog(sim.verbosity_scriptinfos, string.format('Generating a decimated equivalent shape (%i/%i)... (input shape has %i triangular faces)', cnt, #params.sel, #ind / 3)) 
+                    sim.addLog(sim.verbosity_scriptinfos, string.format('Generating a decimated equivalent shape (%i/%i)... (input shape has %i triangular faces)', cnt, #params.sel, #ind / 3))
                     local nh = getDecimated(h, params, params.adoptColor)
                     generated[#generated + 1] = nh
                     local vert, ind = sim.getShapeMesh(nh)
@@ -29,14 +31,14 @@ function sysCall_nonSimulation()
                 sim.setObjectSel({})
             end
         end
-        return {cmd = 'cleanup'} 
+        return {cmd = 'cleanup'}
     end
 end
-    
+
 function sysCall_init()
-    sim = require('sim')
-    simUI = require('simUI')
-    simOpenMesh = require('simOpenMesh')
+    sim = require 'sim'
+    simUI = require 'simUI'
+    simOpenMesh = require 'simOpenMesh'
 
     local sel = sim.getObjectSel()
     if #sel == 0 or sim.getSimulationState() ~= sim.simulation_stopped then

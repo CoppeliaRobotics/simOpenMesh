@@ -1,4 +1,5 @@
-local simOpenMesh = loadPlugin('simOpenMesh');
+local simOpenMesh = loadPlugin 'simOpenMesh'
+local sim = require 'sim-1'
 
 function simOpenMesh.getDecimatedShape(shapeHandle, prop)
     -- for backward compatibility
