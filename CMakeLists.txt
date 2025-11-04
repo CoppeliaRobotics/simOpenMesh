@@ -4,7 +4,7 @@ project(simOpenMesh)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_MACOSX_RPATH 1)
 
-find_package(Boost REQUIRED COMPONENTS system serialization)
+find_package(Boost REQUIRED COMPONENTS serialization)
 
 if(NOT COPPELIASIM_INCLUDE_DIR)
     if(DEFINED ENV{COPPELIASIM_ROOT_DIR})
