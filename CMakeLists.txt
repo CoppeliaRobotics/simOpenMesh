@@ -16,7 +16,7 @@ endif()
 list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules
     ${COPPELIASIM_INCLUDE_DIR}/cmake)
-find_package(CoppeliaSim 4.5.1.7 REQUIRED)
+find_package(CoppeliaSim 4.5.1.7 REQUIRED COMPONENTS simLib-1 simLib-scriptFunctionData-1 simStack-1)
 find_package(Eigen3 REQUIRED)
 
 if(WIN32)
@@ -53,15 +53,6 @@ coppeliasim_add_plugin(
     LEGACY
     SOURCES
     sourceCode/simOpenMesh.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionData.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/simLib/scriptFunctionDataItem.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackBool.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackNull.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackNumber.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackString.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackArray.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackMap.cpp
-    ${COPPELIASIM_INCLUDE_DIR}/simStack/stackObject.cpp
 )
 target_compile_definitions(simOpenMesh PRIVATE SIM_MATH_DOUBLE)
 if(NOT WIN32)
