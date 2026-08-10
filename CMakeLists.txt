@@ -20,8 +20,8 @@ find_package(CoppeliaSim 4.5.1.7 REQUIRED COMPONENTS simLib-1 simLib-scriptFunct
 find_package(Eigen3 REQUIRED)
 
 if(WIN32)
-    # install openmesh via vcpkg
-    find_package(openmesh REQUIRED)
+    find_package(OpenMesh CONFIG REQUIRED)
+    set(OPENMESH_LIBRARIES OpenMeshCore OpenMeshTools)
 else()
     include(ExternalProject)
     set(OPENMESH_VERSION 8.1)
