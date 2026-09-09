@@ -36,7 +36,7 @@ function sysCall_nonSimulation()
 end
 
 function sysCall_init()
-    sim = require 'sim'
+    sim = require 'sim-1'
     simUI = require 'simUI'
     simOpenMesh = require 'simOpenMesh'
 
@@ -92,7 +92,7 @@ function initGenerate()
             end
         end
     end
-    
+
     leaveNow = true
     if #sel > 0 then
         params = {adoptColor = adoptColors, sel = sel}
@@ -150,9 +150,9 @@ function getDecimated(shapeHandle, params, adoptColor)
     sim.setShapeMass(newShape, sim.getShapeMass(shapeHandle))
     local inertiaMatrix, com = sim.getShapeInertia(shapeHandle)
     sim.setShapeInertia(newShape, inertiaMatrix, com)
-    
+
     -- Various:
     sim.setObjectAlias(newShape, sim.getObjectAlias(shapeHandle) .. '_decimated')
-    
+
     return newShape
 end
